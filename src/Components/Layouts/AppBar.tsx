@@ -1,10 +1,10 @@
 import { useContext } from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { AuthContext } from '../Contexts/auth/authContext.ts';
 
 export const AppBar = () => {
 
-  const { state, dispatch } = useContext(AuthContext);
+  const { state } = useContext(AuthContext);
 
 
   return (
@@ -53,6 +53,22 @@ export const AppBar = () => {
                 Books
               </NavLink>
             </li>
+             <li className={state.accessToken ? "nav-item" : "d-none nav-item"}>
+              <NavLink
+                to="/authors"
+                className={({ isActive }) =>
+                  isActive ? "nav-link active" : "nav-link"
+                }
+              >
+                Authors
+              </NavLink>
+            </li>
+             <li className="nav-item">
+              <NavLink className="nav-link" to="/publishers">
+                Publishers
+              </NavLink>
+            </li>
+
 
             <li className={state.accessToken ? "nav-item d-none" :"nav-item"}>
               <NavLink

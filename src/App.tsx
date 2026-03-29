@@ -11,6 +11,10 @@ import { BookForm } from './Components/Pages/BookForm';
 import { BookDetails } from './Components/Pages/BookDetails';
 import { setNavigator } from './Services/navigatorService';
 import { AuthProvider } from './Components/Contexts/auth/authProvider';
+import { Authors } from './Components/Pages/Authors';
+import { AuthorForm } from './Components/Pages/AuthorForm';
+import { PublisherForm } from './Components/Pages/PublisherForm';
+import Publishers from './Components/Pages/Publishers';
 
 function App() {
 
@@ -34,6 +38,12 @@ function App() {
           <Route path='/Login' element={<Login />} />
           <Route path='/Register' element={<Register />} />
           <Route path='/Logout' element={<Logout />} />
+          <Route path="/authors" element={<Authors />} />
+          <Route path="/authors/add" element={<AuthorForm />} />
+          <Route path="/authors/edit/:id" element={<AuthorForm />} />
+          <Route path="/publishers" element={<Publishers />} />
+         <Route path="/publishers/add" element={<PublisherForm />} />
+          <Route path="/publishers/edit/:id" element={<PublisherForm />} />
         </Routes>
       </AuthProvider>
     </>

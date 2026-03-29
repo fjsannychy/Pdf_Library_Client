@@ -1,7 +1,7 @@
 export interface PublisherModel{
     id: number,
-    Name: string,
-    Address: string,
-    Contact: string;
-    Status: Number
+    name: string,
+    address: string,
+    contact: string;
+    status: number
 }

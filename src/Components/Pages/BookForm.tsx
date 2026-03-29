@@ -232,7 +232,7 @@ export const BookForm = () => {
           {/* PDF */}
           <div className="mb-3">
             <label>Upload PDF</label>
-            <input type="file" className="form-control" onChange={handlePdf} accept=".pdf" />
+            <input required={id ? false : true} type="file" className="form-control" onChange={handlePdf} accept=".pdf" />
           </div>
 
           {/* Images */}
