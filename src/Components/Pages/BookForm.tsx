@@ -20,7 +20,7 @@ export const BookForm = () => {
     authorId: 0,
     shortDescription: "",
     details: "",
-    status: 1,
+    status: 0,
     features: [],
     bookAttachments: [],
     pdfFile: null,
@@ -277,6 +277,16 @@ export const BookForm = () => {
               </li>
             ))}
           </ul>
+
+          <select
+            name="status"
+            className="form-control mb-3"
+            value={bookData.status}
+            onChange={handleInput}
+          >
+            <option value={0}>Active</option>
+            <option value={1}>Inactive</option>
+          </select>
 
           <div className="text-center">
             <button className="btn btn-primary px-5">{id ? "Update" : "Save"}</button>

@@ -65,7 +65,8 @@ export const Login: React.FC = () => {
         type: "LoginSuccess",
         data: {
           accessToken: CommonService.GetUserToken(),
-          username: CommonService.GetSessionValByKey("username")
+          username: CommonService.GetSessionValByKey("username"),
+          role: CommonService.GetSessionValByKey("role"), 
         }
       });
 

@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AppConstants } from '../../AppConstants';
 import type { BookListItemModel } from '../../Models/BookListItemModel';
+import { AuthContext } from "../Contexts/auth/authContext";
 
 type BookProps = {
     book: BookListItemModel;
@@ -10,6 +11,9 @@ type BookProps = {
 };
 
 export const Book: React.FC<BookProps> = ({ book, handleEdit, handleDelete }) => {
+
+    const { state } = useContext(AuthContext);
+
     const navigate = useNavigate();
     const [showFullShort, setShowFullShort] = useState(false);
 
@@ -86,10 +90,12 @@ export const Book: React.FC<BookProps> = ({ book, handleEdit, handleDelete }) =>
 
                 {/* Footer Buttons */}
                 <div className="card-footer d-flex gap-2 justify-content-between">
-                    <div className="d-flex gap-2">
-                        <button className="btn btn-sm btn-warning" onClick={() => handleEdit(book.id)}>Edit</button>
-                        <button className="btn btn-sm btn-danger" onClick={() => handleDelete(book.id)}>Delete</button>
-                    </div>
+                    {(state.role === 'Admin' ||
+                      state.role === 'Librarian' ?
+                        <div className="d-flex gap-2" >
+                            <button className="btn btn-sm btn-warning" onClick={() => handleEdit(book.id)}>Edit</button>
+                            <button className="btn btn-sm btn-danger" onClick={() => handleDelete(book.id)}>Delete</button>
+                        </div> : <></>)}
 
                     {/* View Details Button */}
                     <button className="btn btn-sm btn-info" onClick={() => navigate(`/book-details/${book.id}`)}>
