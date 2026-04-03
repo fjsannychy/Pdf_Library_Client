@@ -57,8 +57,21 @@ export const Register: React.FC = () => {
 
       navigate("/login");
 
+    }).catch((ex: any) => {
 
-    })
+      setForm({
+        userid: 0,
+        fullname: "",
+        username: "",
+        password: "",
+        confirmPassword: ""
+      });
+             
+      console.log(ex.response?.data);
+      
+      alert(ex.response?.data);
+
+    });
 
 
   };

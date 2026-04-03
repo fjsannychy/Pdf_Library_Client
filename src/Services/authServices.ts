@@ -14,6 +14,12 @@ export const AuthService = {
            { isAuthorize: false } as CustomAxiosRequestConfig
         ); 
     },
+    Verify: async (data: any): Promise<any> => {
+        
+        return axiosInstance.post('Users/verify-user', data,
+           { isAuthorize: false } as CustomAxiosRequestConfig
+        ); 
+    },
     RefreshToken: () => {
         return axiosInstance.post('Users/refresh',
             {

@@ -15,6 +15,9 @@ import { Authors } from './Components/Pages/Authors';
 import { AuthorForm } from './Components/Pages/AuthorForm';
 import { PublisherForm } from './Components/Pages/PublisherForm';
 import Publishers from './Components/Pages/Publishers';
+import { ReadBook } from './Components/Pages/ReadBook';
+import { VerifyUser } from './Components/Pages/VerifyUser';
+
 
 function App() {
 
@@ -35,7 +38,9 @@ function App() {
           <Route path='/book-form' element={<BookForm />} />
           <Route path='/book-form/:id' element={<BookForm />} />
           <Route path="/book-details/:id" element={<BookDetails />} />
+          <Route path='/read-book/:id' element={<ReadBook />} />
           <Route path='/Login' element={<Login />} />
+          <Route path='/verify-user/:token' element={<VerifyUser />} />
           <Route path='/Register' element={<Register />} />
           <Route path='/Logout' element={<Logout />} />
           <Route path="/authors" element={<Authors />} />

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { BookService } from "../../Services/bookService";
 import { AppConstants } from "../../AppConstants";
@@ -8,13 +8,19 @@ export const BookDetails = () => {
   const navigate = useNavigate();
 
   const [book, setBook] = useState<any>(null);
+  const loaded = useRef<boolean>(false);
+
 
   useEffect(() => {
-    if (id) {
-      BookService.GetById(Number(id))
+    if (id && !loaded.current) {
+      loaded.current = true;
+      BookService.GetById(Number(id), false)
         .then((resp: any) => {
           const data = resp.data.result || resp.data;
           setBook(data);
+
+          BookService.AddUserAction({ bookId: Number(id), actionType: 0});
+
         })
         .catch(() => alert("Failed to load book"));
     }
@@ -69,6 +75,9 @@ export const BookDetails = () => {
           <p><strong>Publisher:</strong> {book.publisher}</p>
           <p><strong>Category:</strong> {book.category}</p>
           <p><strong>Price:</strong> {renderPrice()}</p>
+          <button className="btn btn-success mt-2 mb-2" onClick={() => navigate("/read-book/"+book.id)}>
+             Read Book
+          </button>
         </div>
       </div>
 

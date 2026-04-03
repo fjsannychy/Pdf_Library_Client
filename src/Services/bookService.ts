@@ -1,5 +1,6 @@
 import axiosInstance from '../interceptor.ts';
 import type { BookModel } from '../Models/BookModel.ts';
+import type { UserActionModel } from '../Models/UserActionModel.ts';
 import { CommonService } from './commonServices.ts';
 
 export const BookService = {
@@ -7,8 +8,8 @@ export const BookService = {
     return axiosInstance.post('Books/search', data);
   },
 
-  GetById: async (id: number): Promise<any> => {
-    return axiosInstance.get(`Books/${id}`);
+  GetById: async (id: number, readMode: boolean): Promise<any> => {
+    return axiosInstance.get(`Books/${id}?readMode=${readMode}`);
   },
 
   Create: async (data: BookModel): Promise<any> => {
@@ -27,5 +28,8 @@ export const BookService = {
 
   Delete: async (id: number): Promise<any> => {
     return axiosInstance.delete(`Books/${id}`);
-  }
+  },
+  AddUserAction: async (data: UserActionModel): Promise<any> => {
+    return axiosInstance.post('Books/user-action', data);
+  },
 };

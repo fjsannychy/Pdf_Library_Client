@@ -55,7 +55,7 @@ export const BookForm = () => {
   useEffect(() => {
     if (id) {
 
-      BookService.GetById(Number(id))
+      BookService.GetById(Number(id), false)
         .then((resp: any) => {
           const data = resp.data;
           setBookData({ ...data, pdfFile: null, coverPhoto: null });

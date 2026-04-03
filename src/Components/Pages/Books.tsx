@@ -37,7 +37,7 @@ export const Books = () => {
   // Initial load and page change
   useEffect(() => {
     loadBooks();
-  }, [filter.pageNumber]);
+  }, [filter]);
 
   // Infinite scroll
   useEffect(() => {

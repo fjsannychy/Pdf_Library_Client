@@ -14,6 +14,7 @@ export interface BookModel {
   shortDescription?: string;
   details?: string;
   coverPhotoUrl?: string;
+  pdfUrl?: string;
   publishDate?: string;    
   registerDate: string;
   registeredBy: number;
