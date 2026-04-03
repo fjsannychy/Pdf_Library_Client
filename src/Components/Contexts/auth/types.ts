@@ -7,5 +7,6 @@ export type Actions =
 
 export interface State {
     accessToken: string | null,
-    username: string | null
+    username: string | null,
+    role: string | null
 }

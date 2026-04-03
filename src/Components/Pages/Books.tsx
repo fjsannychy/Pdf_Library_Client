@@ -3,15 +3,18 @@ import { useNavigate } from "react-router-dom";
 import { BookService } from "../../Services/bookService";
 import { Book } from "../Molecoles/Book";
 import type { BookFilterModel } from "../../Models/BookFilterModel";
+import { useContext } from "react";
+import { AuthContext } from '../Contexts/auth/authContext.ts';
 
 export const Books = () => {
   const navigate = useNavigate();
+  const { state } = useContext(AuthContext);
 
   const [books, setBooks] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
-
   const [filter, setFilter] = useState<BookFilterModel>({
+    filterType: 0,
     search: "",
     pageNumber: 1,
     pageSize: 5 // adjust as needed
@@ -25,8 +28,12 @@ export const Books = () => {
 
     BookService.GetList(filter)
       .then((resp: any) => {
+
+        console.log(filter);
+
+
         const newItems = resp.data.items || [];
-        if (newItems.length === 0) setHasMore(false);
+        if (newItems.length === 0 && filter.pageNumber !== 1) setHasMore(false);
         else setBooks(prev =>
           filter.pageNumber === 1 ? newItems : [...prev, ...newItems]
         );
@@ -74,10 +81,49 @@ export const Books = () => {
     <div className="container mt-4">
       <div className="d-flex justify-content-between mb-3">
         <h3>Books</h3>
-        <button className="btn btn-success" onClick={() => navigate('/book-form')}>
-          + Add New Book
-        </button>
+        {(state.role === 'Admin' ||
+          state.role === 'Librarian' ?
+          <button className="btn btn-success" onClick={() => navigate('/book-form')}>
+            + Add New Book
+          </button> 
+          : <></>
+         )}
       </div>
+
+      <select
+          name="Filter Mode"
+          className="form-control mb-3"
+          value={filter.filterType}
+          onChange={(e: any) => {
+          setHasMore(true);
+           setFilter({
+             ...filter,
+            pageNumber: 1,
+            filterType: parseInt(e.target.value)
+           });
+          }}
+        >
+            <option value={0}>Recommended Books</option>
+            <option value={1}>Favourite Books</option>
+            <option value={2}>My Books</option>
+     </select>
+
+      {/* Search */}
+      <input
+        type="text"
+        className="form-control mb-3"
+        placeholder="Search books..."
+        value={filter.search}
+        onChange={(e) => {
+          setHasMore(true);
+          setFilter({
+            ...filter,
+            pageNumber: 1,
+            search: e.target.value
+          })
+        }
+        }
+      />
 
       <div className="row">
         {books.map(book => (

@@ -12,7 +12,8 @@ interface StateProviderProps {
 export const AuthProvider: React.FC<StateProviderProps> = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer,{
                 accessToken: CommonService.GetSessionValByKey("accessToken") ?  CommonService.GetSessionValByKey("accessToken") : null,
-                username: CommonService.GetSessionValByKey("username") ? CommonService.GetSessionValByKey("username") : null
+                username: CommonService.GetSessionValByKey("username") ? CommonService.GetSessionValByKey("username") : null,
+                role: CommonService.GetSessionValByKey("role") ? CommonService.GetSessionValByKey("role") : null
   });
 
   return (
