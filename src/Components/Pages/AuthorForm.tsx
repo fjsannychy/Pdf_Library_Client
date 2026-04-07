@@ -92,8 +92,8 @@ export const AuthorForm = () => {
             value={author.status}
             onChange={handleInput}
           >
-            <option value={1}>Active</option>
-            <option value={0}>Inactive</option>
+            <option value={0}>Active</option>
+            <option value={1}>Inactive</option>
           </select>
 
           <div className="d-flex justify-content-between">

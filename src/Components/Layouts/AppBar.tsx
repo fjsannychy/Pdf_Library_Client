@@ -27,7 +27,7 @@ export const AppBar = () => {
         {/* Collapsible Menu */}
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ms-auto">
-            
+
             {/* Username */}
             {loggedIn && (
               <li className="nav-item">
@@ -62,7 +62,7 @@ export const AppBar = () => {
             )}
 
             {/* Authors */}
-            {loggedIn && (
+            {loggedIn && state.role === "Admin" && (
               <li className="nav-item">
                 <NavLink
                   to="/authors"
@@ -76,7 +76,7 @@ export const AppBar = () => {
             )}
 
             {/* Users */}
-            {loggedIn && (
+            {loggedIn && state.role === "Admin" && (
               <li className="nav-item">
                 <NavLink
                   to="/users"
@@ -89,17 +89,17 @@ export const AppBar = () => {
               </li>
             )}
 
-            {/* Publishers (always visible) */}
-            <li className="nav-item">
-              <NavLink
-                to="/publishers"
-                className={({ isActive }) =>
-                  isActive ? "nav-link active" : "nav-link"
-                }
-              >
-                Publishers
-              </NavLink>
-            </li>
+            {loggedIn && state.role === "Admin" && (
+              <li className="nav-item">
+                <NavLink
+                  to="/publishers"
+                  className={({ isActive }) =>
+                    isActive ? "nav-link active" : "nav-link"
+                  }
+                >
+                  Publishers
+                </NavLink>
+              </li>)}
 
             {/* Login / Register (only when not logged in) */}
             {!loggedIn && (

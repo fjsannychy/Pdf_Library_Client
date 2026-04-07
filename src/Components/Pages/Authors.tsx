@@ -86,7 +86,7 @@ export const Authors = () => {
                 <td>{author.name}</td>
                 <td>{author.address}</td>
                 <td>{author.contact}</td>
-                <td>{author.status === 1 ? "Active" : "Inactive"}</td>
+                <td>{author.status === 0 ? "Active" : "Inactive"}</td>
                 <td>
                   <button
                     className="btn btn-sm btn-warning me-2"

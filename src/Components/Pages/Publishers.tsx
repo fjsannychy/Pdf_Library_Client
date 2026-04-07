@@ -101,7 +101,7 @@ const Publishers = () => {
                 <td>{p.name}</td>
                 <td>{p.address}</td>
                 <td>{p.contact}</td>
-                <td>{p.status === 1 ? "Active" : "Inactive"}</td>
+                <td>{p.status === 0 ? "Active" : "Inactive"}</td>
                 <td>
                   <button
                     className="btn btn-sm btn-warning me-2"

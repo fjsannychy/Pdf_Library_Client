@@ -81,7 +81,7 @@ export const Users = () => {
                 <td>{user.username}</td>
                 <td>{user.fullname}</td>
                 <td>{user.role}</td>
-                <td>{user.status === "1" ? "Active" : "Inactive"}</td>
+                <td>{user.status === 1 ? "Active" :user.status === 0 ? "Inactive": "Suspended"}</td>
                 <td>
                   <button
                     className="btn btn-sm btn-warning me-2"

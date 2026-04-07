@@ -3,5 +3,5 @@ export interface UserModel {
   username: string;
   fullname: string;
   role: string;
-  status: string;
+  status: number;
 }
