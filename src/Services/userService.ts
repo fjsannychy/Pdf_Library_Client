@@ -9,7 +9,9 @@ export const UserService = {
   },
 
   // Search users with pagination
-  GetList: async (data: { search: string; pageNumber: number; pageSize: number }): Promise<{ users: UserModel[]; totalCount: number }> => {
+  GetList: async (data: { search: string; pageNumber: number; pageSize: number }): Promise<{
+    data: UserModel[]; users: UserModel[]; totalCount: number 
+}> => {
     const resp = await axiosInstance.post('Users/search', data);
     return resp.data;
   },

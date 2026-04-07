@@ -4,4 +4,5 @@ export interface UserModel {
   fullname: string;
   role: string;
   status: number;
+  password?: string;
 }

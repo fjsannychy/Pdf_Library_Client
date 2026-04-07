@@ -18,6 +18,7 @@ import Publishers from './Components/Pages/Publishers';
 import { ReadBook } from './Components/Pages/ReadBook';
 import { VerifyUser } from './Components/Pages/VerifyUser';
 import { Users } from "./Components/Pages/Users";
+import { UserEditForm } from './Components/Pages/UserEditForm';
 
 
 function App() {
@@ -51,6 +52,7 @@ function App() {
          <Route path="/publishers/add" element={<PublisherForm />} />
           <Route path="/publishers/edit/:id" element={<PublisherForm />} />
             <Route path="/users" element={<Users />} />
+            <Route path="/users/edit/:id" element={<UserEditForm />} />
      
         </Routes>
       </AuthProvider>
