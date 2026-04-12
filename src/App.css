@@ -1,3 +1,38 @@
 .primary-color {
     background-color: white;
 }
+.nav-link.active {
+    color: #0d6efd !important; /* Uses Bootstrap Primary Blue */
+    font-weight: 600;
+    border-bottom: 2px solid #0d6efd;
+}
+/* This makes the whole app feel like a cohesive platform */
+body {
+    background-color: #f8fafc !important; /* Soft white-blue tint */
+}
+
+/* Smoother, more professional shadow for your form cards */
+.shadow-lg {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02) !important;
+}
+
+/* Make inputs look integrated, not like they are 'floating' weirdly */
+.form-control, .form-select {
+    border: 1px solid #e2e8f0 !important;
+    padding: 0.75rem 1rem !important;
+}
+
+/* Custom highlight for Edit buttons */
+.btn-outline-primary.rounded-pill {
+    transition: all 0.3s ease-in-out;
+    border-color: #dee2e6; /* Start with a subtle gray border */
+    color: #6c757d;        /* Start with a subtle gray text */
+}
+
+.btn-outline-primary.rounded-pill:hover {
+    background-color: #e0f2fe !important; /* Light Blue Highlight background */
+    border-color: #0d6efd !important;      /* Bright Blue Border */
+    color: #0d6efd !important;             /* Bright Blue Text */
+    box-shadow: 0 4px 12px rgba(13, 110, 253, 0.15); /* Soft Blue Glow */
+    transform: translateY(-1px);            /* Slight lift */
+}

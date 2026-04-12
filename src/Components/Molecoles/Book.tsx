@@ -13,95 +13,110 @@ type BookProps = {
 export const Book: React.FC<BookProps> = ({ book, handleEdit, handleDelete }) => {
 
     const { state } = useContext(AuthContext);
-
     const navigate = useNavigate();
     const [showFullShort, setShowFullShort] = useState(false);
 
+    // ★ UPDATE: Corrected logic for percentage-based discount
     const renderPrice = () => {
         if (book.price === 0) {
             return <span className="badge bg-success">Free</span>;
         }
+
         if (book.discountPercent && book.discountPercent > 0) {
-            const discountedPrice = book.price - book.discountPercent;
+            // Calculation: Price * (1 - Percent / 100)
+            const discountedPrice = book.price * (1 - book.discountPercent / 100);
+            
             return (
                 <span>
-                    <span className="text-decoration-line-through me-2">
+                    <span className="text-decoration-line-through me-2 text-muted small">
                         {book.price}{AppConstants.Currency}
                     </span>
-                    <span className="text-danger">{discountedPrice}{AppConstants.Currency}</span>
+                    <span className="text-danger fw-bold">
+                        {discountedPrice.toFixed(2)}{AppConstants.Currency}
+                    </span>
                 </span>
             );
         }
-        return <span>{book.price}{AppConstants.Currency}</span>;
+
+        return <span className="fw-bold">{book.price}{AppConstants.Currency}</span>;
     };
 
     const truncateText = (text: string, length: number) =>
         text.length > length ? text.substring(0, length) + "..." : text;
 
     return (
-        <div className="col-md-4 mb-3">
-            <div className="card h-100">
+        <div className="card h-100 mb-3 shadow-sm border-0 overflow-hidden">
 
-                {/* Cover Photo */}
+            {/* ★ UPDATE: Added Relative container for the Sale Badge */}
+            <div className="position-relative">
                 {book.coverPhotoUrl && (
                     <img
                         src={`${AppConstants.FileServerUrl}${book.coverPhotoUrl}`}
                         className="card-img-top"
                         alt={book.title}
-                        style={{ height: '200px', objectFit: 'cover' }}
+                        style={{ height: '220px', objectFit: 'cover' }}
                     />
                 )}
+                
+                {/* ★ UPDATE: Red Sale Badge on Image */}
+                {book.discountPercent && book.discountPercent > 0 && (
+                    <span 
+                        className="position-absolute top-0 start-0 badge bg-danger m-2 shadow"
+                        style={{ fontSize: '0.75rem', zIndex: 2 }}
+                    >
+                        {book.discountPercent}% OFF
+                    </span>
+                )}
+            </div>
 
-                <div className="card-body">
-                    <h5 className="card-title">{book.title}</h5>
+            <div className="card-body">
+                <h5 className="card-title text-primary text-truncate">{book.title}</h5>
 
-                    {/* Author / Publisher / Category / Price */}
-                    <p className="mb-1 text-muted">
-                        <strong>Author:</strong> {book.author} <br />
-                        <strong>Publisher:</strong> {book.publisher} <br />
-                        <strong>Category:</strong> {book.category} <br />
-                        <strong>Price:</strong> {renderPrice()}
+                <div className="mb-2 text-muted small">
+                    <p className="mb-0"><strong>Author:</strong> {book.author}</p>
+                    <p className="mb-0"><strong>Category:</strong> {book.category}</p>
+                    <p className="mb-0 mt-1"><strong>Price:</strong> {renderPrice()}</p>
+                </div>
+
+                {book.shortDescription && (
+                    <p className="card-text small text-secondary">
+                        {showFullShort
+                            ? book.shortDescription
+                            : truncateText(book.shortDescription, 60)}
+                        {book.shortDescription.length > 60 && (
+                            <button
+                                className="btn btn-link btn-sm p-0 ms-1 text-decoration-none"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    setShowFullShort(!showFullShort);
+                                }}
+                            >
+                                {showFullShort ? "Show less" : "Read more"}
+                            </button>
+                        )}
                     </p>
+                )}
+            </div>
 
-                    {/* Short Description with Read more */}
-                    {book.shortDescription && (
-                        <p className="card-text">
-                            {showFullShort
-                                ? book.shortDescription
-                                : truncateText(book.shortDescription, 50)}
-                            {book.shortDescription.length > 50 && (
-                                <button
-                                    className="btn btn-link btn-sm p-0 ms-1"
-                                    onClick={() => setShowFullShort(!showFullShort)}
-                                >
-                                    {showFullShort ? "Show less" : "Read more"}
-                                </button>
-                            )}
-                        </p>
-                    )}
+            <div className="card-footer bg-white border-top-0 d-flex gap-2 justify-content-between pb-3">
+                {/* Admin/Librarian Controls */}
+                {(state.role === 'Admin' || state.role === 'Librarian') && (
+                    <div className="d-flex gap-1">
+                        <button className="btn btn-sm btn-outline-warning" onClick={() => handleEdit(book.id)}>
+                            <i className="bi bi-pencil"></i>
+                        </button>
+                        <button className="btn btn-sm btn-outline-danger" onClick={() => handleDelete(book.id)}>
+                            <i className="bi bi-trash"></i>
+                        </button>
+                    </div>
+                )}
 
-                    {/* Features */}
-                    {Array.isArray(book.features) && book.features.length > 0 && (
-                        <p className="card-text">
-                            <strong>Features:</strong> {book.features.join(", ")}
-                        </p>
-                    )}
-                </div>
-
-                {/* Footer Buttons */}
-                <div className="card-footer d-flex gap-2 justify-content-between">
-                    {(state.role === 'Admin' ||
-                      state.role === 'Librarian' ?
-                        <div className="d-flex gap-2" >
-                            <button className="btn btn-sm btn-warning" onClick={() => handleEdit(book.id)}>Edit</button>
-                            <button className="btn btn-sm btn-danger" onClick={() => handleDelete(book.id)}>Delete</button>
-                        </div> : <></>)}
-
-                    {/* View Details Button */}
-                    <button className="btn btn-sm btn-info" onClick={() => navigate(`/book-details/${book.id}`)}>
-                        Details
-                    </button>
-                </div>
+                <button 
+                    className="btn btn-sm btn-primary flex-grow-1 shadow-sm" 
+                    onClick={() => navigate(`/book-details/${book.id}`)}
+                >
+                    View Details
+                </button>
             </div>
         </div>
     );

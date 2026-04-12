@@ -19,6 +19,10 @@ import { ReadBook } from './Components/Pages/ReadBook';
 import { VerifyUser } from './Components/Pages/VerifyUser';
 import { Users } from "./Components/Pages/Users";
 import { UserEditForm } from './Components/Pages/UserEditForm';
+import { Categories } from './Components/Pages/Categories';
+import { CategoryForm } from './Components/Pages/CategoryForm';
+import { Profile } from './Components/Pages/Profile';
+import { PaymentPage } from './Components/Pages/PaymentPage';
 
 
 function App() {
@@ -53,7 +57,16 @@ function App() {
           <Route path="/publishers/edit/:id" element={<PublisherForm />} />
             <Route path="/users" element={<Users />} />
             <Route path="/users/edit/:id" element={<UserEditForm />} />
-     
+            <Route path="/categories" element={<Categories />} />
+            <Route path="/categories/add" element={<CategoryForm />} />
+            <Route path="/categories/edit/:id" element={<CategoryForm />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/payment/:id" element={<PaymentPage />} />
+     <Route path="/" element={<Home />} />
+  <Route path="/profile" element={<Profile />} />
+  
+  {/* This MUST match the navigate() path in Profile.tsx */}
+  <Route path="/book-details/:id" element={<BookDetails />} />
         </Routes>
       </AuthProvider>
     </>

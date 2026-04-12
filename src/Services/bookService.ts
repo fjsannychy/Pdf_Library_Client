@@ -12,6 +12,12 @@ export const BookService = {
     return axiosInstance.get(`Books/${id}?readMode=${readMode}`);
   },
 
+  // --- ADD THIS METHOD ---
+  ToggleFavourite: async (bookId: number): Promise<any> => {
+    return axiosInstance.post('UserFavourite/toggle', { bookId });
+  },
+  // -----------------------
+
   Create: async (data: BookModel): Promise<any> => {
     const formData = CommonService.buildFormData(data);
     return axiosInstance.post('Books', formData, {
@@ -29,6 +35,7 @@ export const BookService = {
   Delete: async (id: number): Promise<any> => {
     return axiosInstance.delete(`Books/${id}`);
   },
+
   AddUserAction: async (data: UserActionModel): Promise<any> => {
     return axiosInstance.post('Books/user-action', data);
   },

@@ -1,7 +1,16 @@
 import axiosInstance from '../interceptor.ts';
 import type { UserModel } from '../Models/UserModel.ts';
+import type { ProfileViewModel } from '../Models/ProfileViewModel';
+
 
 export const UserService = {
+
+   GetProfile: async (): Promise<ProfileViewModel> => {
+    const resp = await axiosInstance.get('Users/profile');
+    return resp.data;
+  },
+
+  // existing m
   // Get all users
   GetAll: async (): Promise<UserModel[]> => {
     const resp = await axiosInstance.get('Users');
@@ -9,9 +18,14 @@ export const UserService = {
   },
 
   // Search users with pagination
-  GetList: async (data: { search: string; pageNumber: number; pageSize: number }): Promise<{
-    data: UserModel[]; users: UserModel[]; totalCount: number 
-}> => {
+  GetList: async (data: {
+    search: string;
+    pageNumber: number;
+    pageSize: number;
+  }): Promise<{
+    users: UserModel[];
+    totalCount: number;
+  }> => {
     const resp = await axiosInstance.post('Users/search', data);
     return resp.data;
   },
