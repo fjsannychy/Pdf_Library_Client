@@ -30,9 +30,9 @@ export const Authors = () => {
   }, [loadAuthors]);
 
   const handleDelete = async (id: number) => {
-    if (!window.confirm("Are you sure you want to delete this author?")) return;
+    if (!window.confirm("Permanent Action: Are you sure you want to remove this author?")) return;
     try {
-      AuthorService.Delete(id).then(resp => {
+      AuthorService.Delete(id).then((resp) => {
         alert(resp.data.message);
         loadAuthors();
       });
@@ -41,155 +41,185 @@ export const Authors = () => {
     }
   };
 
+  const getInitials = (name: string) => {
+    if (!name) return "??";
+    return name
+      .split(" ")
+      .map((word) => word[0])
+      .join("")
+      .toUpperCase()
+      .substring(0, 2);
+  };
+
+  // --- Styles to match Users Directory ---
+  const glassHeader: React.CSSProperties = {
+    background: "rgba(255, 255, 255, 0.7)",
+    backdropFilter: "blur(15px)",
+    border: "4px solid rgba(8, 57, 86, 0.5)", // 🔹 Consistent Orange Border
+    borderRadius: "20px",
+    padding: "0.5rem 1.5rem",
+    boxShadow: "0 10px 30px rgba(0, 0, 0, 0.05)",
+    transition: "0.3s ease"
+  };
+
   return (
-    <div className="min-vh-100 py-5" style={{ backgroundColor: "#cbd5e1" }}>
+    <div
+      className="min-vh-100 py-5"
+      style={{
+        backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.85), rgba(248, 250, 252, 0.95)), 
+                          url('https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=2000')`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundAttachment: "fixed",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
       <div className="container">
-        
         {/* Header Section */}
-        <div className="d-flex justify-content-between align-items-end mb-5">
-          <div className="d-flex align-items-center">
-            <button 
-              className="btn btn-white rounded-circle shadow-sm me-3 border-2" 
+        <div className="row align-items-center mb-5">
+          <div className="col-md-8 d-flex align-items-center">
+            <button
+              className="btn btn-white rounded-circle shadow-sm me-4 border-2 d-flex align-items-center justify-content-center"
               style={{ 
-                width: "45px", height: "45px", 
-                borderColor: "#11364a", color: "#11364a",
-                transition: "0.3s" 
+                width: "45px", 
+                height: "45px", 
+                borderColor: "#11364a", 
+                color: "#11364a", 
+                transition: "0.3s",
+                backgroundColor: "#fff" 
               }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = "#11364a";
-                e.currentTarget.style.color = "#ffffff";
-                e.currentTarget.style.borderColor = "#f97316"; 
+              onMouseEnter={(e) => { 
+                e.currentTarget.style.backgroundColor = "#11364a"; 
+                e.currentTarget.style.color = "#fff"; 
               }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = "#ffffff";
-                e.currentTarget.style.color = "#11364a";
-                e.currentTarget.style.borderColor = "#11364a";
+              onMouseLeave={(e) => { 
+                e.currentTarget.style.backgroundColor = "#fff"; 
+                e.currentTarget.style.color = "#11364a"; 
               }}
-              onClick={() => navigate("/")} 
+              onClick={() => navigate("/")}
             >
               <i className="bi bi-arrow-left fs-5"></i>
             </button>
 
             <div>
-              <h1 className="fw-bold text-dark mb-1" style={{ letterSpacing: "-1px" }}>Author Registry</h1>
-              <p className="text-muted mb-0 fs-5">Manage and organize your library's contributors</p>
+              <h1 className="display-6 fw-bolder text-dark mb-0 tracking-tight">
+                Author <span style={{ color: "#f7941e" }}>Registry</span>
+              </h1>
+              <p className="text-muted fw-medium mb-0 fs-6">Manage and organize your library's contributors</p>
             </div>
           </div>
-          
-          <button 
-            className="btn btn-primary rounded-pill px-4 shadow-sm fw-bold border-0 py-2" 
-            style={{ backgroundColor: "#11364a" }} 
-            onClick={() => navigate("/authors/add")}
-          >
-            <i className="bi bi-person-plus-fill me-2"></i>Register Author
-          </button>
+
+          <div className="col-md-4 text-md-end mt-3 mt-md-0">
+            <button
+              className="btn rounded-pill px-4 shadow-sm fw-bold border-0 py-2 text-white"
+              style={{ backgroundColor: "#11364a" }}
+              onClick={() => navigate("/authors/add")}
+            >
+              <i className="bi bi-person-plus-fill me-2"></i>Register Author
+            </button>
+          </div>
         </div>
 
-        {/* Search Bar */}
-        <div 
-          className="card shadow-lg rounded-4 mb-4 overflow-hidden"
-          style={{ border: "3px solid", borderImageSource: "linear-gradient(90deg, #11364a, #f97316)", borderImageSlice: 1 }}
-        >
-          <div className="card-body p-0">
-            <div className="row g-0 align-items-center">
-              <div className="col-lg-8 bg-white d-flex align-items-center">
-                <div className="input-group input-group-lg px-3">
-                  <span className="input-group-text bg-transparent border-0 text-muted ps-2">
-                    <i className="bi bi-search"></i>
-                  </span>
-                  <input
-                    type="text"
-                    className="form-control border-0 shadow-none ps-2 py-4"
-                    placeholder="Search by name, contact or biography..."
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                  />
-                </div>
-              </div>
-              <div className="col-lg-4 bg-light d-none d-lg-flex justify-content-center align-items-center border-start border-light">
-                <span className="text-muted fw-bold small text-uppercase py-4">
-                  Active Contributors: {authors.length}
-                </span>
-              </div>
+        {/* 🔹 Glassmorphism Search Bar with Orange Border */}
+        <div style={glassHeader} className="mb-4 search-container">
+          <div className="row g-0 align-items-center">
+            <div className="col-12 d-flex align-items-center">
+              <i className="bi bi-search fs-5 me-3 opacity-75" style={{ color: "#1217a1" }}></i>
+              <input
+                type="text"
+                className="form-control border-0 shadow-none py-3 bg-transparent"
+                placeholder="Search authors by name, address or contact..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                style={{ fontSize: "1.1rem", fontWeight: "500" }}
+              />
             </div>
           </div>
         </div>
 
-        {/* Table Card */}
+        {/* 🔹 Table Card with Orange Border */}
         <div 
           className="card shadow-lg rounded-4 overflow-hidden" 
-          style={{ border: "4px solid", borderImageSource: "linear-gradient(90deg, #ffb700, #5a09aa)", borderImageSlice: 1 }}
+          style={{ 
+            background: "rgba(255, 255, 255, 0.95)",
+            border: "4px solid #eb933b", // Matching orange frame
+            transition: "transform 0.3s ease"
+          }}
+          onMouseEnter={(e) => e.currentTarget.style.transform = "scale(1.002)"}
+          onMouseLeave={(e) => e.currentTarget.style.transform = "scale(1)"}
         >
           <div className="table-responsive">
             <table className="table table-hover align-middle mb-0">
-              <thead style={{ backgroundColor: "#f8fafc" }}>
+              <thead className="bg-light bg-opacity-50">
                 <tr>
-                  <th className="px-4 py-3 border-0 text-muted small fw-bold text-uppercase">Author Profile</th>
-                  <th className="py-3 border-0 text-muted small fw-bold text-uppercase">Contact & Location</th>
-                  <th className="py-3 border-0 text-muted small fw-bold text-uppercase text-center">Status</th>
-                  <th className="py-3 border-0 text-muted small fw-bold text-uppercase text-end px-4">Actions</th>
+                  <th className="px-4 py-3 text-muted small fw-bold text-uppercase border-0">Author Profile</th>
+                  <th className="py-3 text-muted small fw-bold text-uppercase border-0">Contact Info</th>
+                  <th className="py-3 text-muted small fw-bold text-uppercase text-center border-0">Status</th>
+                  <th className="py-3 text-muted small fw-bold text-uppercase text-end px-4 border-0">Management</th>
                 </tr>
               </thead>
-              <tbody className="bg-white">
+              <tbody className="bg-transparent">
                 {loading ? (
-                  <tr><td colSpan={4} className="text-center py-5"><div className="spinner-border text-primary"></div></td></tr>
+                  <tr>
+                    <td colSpan={4} className="text-center py-5 border-0">
+                      <div className="spinner-border" style={{ color: "#eb933b" }}></div>
+                    </td>
+                  </tr>
                 ) : (
                   authors.map((author) => (
-                    <tr key={author.id}>
-                      <td className="px-4 py-3">
+                    <tr key={author.id} className="border-bottom border-light">
+                      <td className="px-4 py-4">
                         <div className="d-flex align-items-center">
-                          <div className="rounded-circle d-flex align-items-center justify-content-center me-3 shadow-sm" 
-                               style={{ width: "45px", height: "45px", backgroundColor: "#e0f2fe", color: "#0369a1" }}>
-                            <i className="bi bi-person-fill fs-5"></i>
+                          <div
+                            className="rounded-circle d-flex align-items-center justify-content-center me-3 shadow-sm fw-bold border bg-white text-primary"
+                            style={{ width: "45px", height: "45px", fontSize: "0.9rem" }}
+                          >
+                            {getInitials(author.name)}
                           </div>
                           <div>
                             <div className="fw-bold text-dark">{author.name}</div>
-                            <div className="text-muted small">ID: #{author.id.toString().padStart(4, '0')}</div>
+                            <div className="text-muted small">ID: #{author.id.toString().padStart(4, "0")}</div>
                           </div>
                         </div>
                       </td>
-                      <td className="py-3">
+                      <td className="py-4">
                         <div className="d-flex flex-column">
-                          <span className="text-dark small fw-medium"><i className="bi bi-geo-alt me-1 text-danger"></i>{author.address}</span>
-                          <span className="text-muted small"><i className="bi bi-telephone me-1 text-primary"></i>{author.contact}</span>
+                          <span className="text-dark small">
+                            <i className="bi bi-geo-alt-fill me-1 text-danger opacity-75"></i>
+                            {author.address}
+                          </span>
+                          <span className="text-muted small">
+                            <i className="bi bi-telephone-fill me-1 text-primary opacity-75"></i>
+                            {author.contact}
+                          </span>
                         </div>
                       </td>
-                      <td className="py-3 text-center">
-                        <span className={`badge rounded-pill px-3 py-2 border ${author.status === 0 ? 'bg-success-subtle text-success border-success' : 'bg-secondary-subtle text-secondary border-secondary'}`}>
-                          {author.status === 0 ? "● Active" : "○ Inactive"}
+                      <td className="py-4 text-center">
+                        <span className={`badge rounded-pill px-3 py-2 border ${author.status === 0 ? "bg-success-subtle text-success border-success-subtle" : "bg-light text-secondary border-secondary-subtle"}`}>
+                          {author.status === 0 ? "Active" : "Inactive"}
                         </span>
                       </td>
-                      <td className="py-3 text-end px-4">
-                        {/* 🔹 Blue Border Edit Button with Highlight */}
-                        <button
-                          className="btn btn-sm rounded-pill me-2 px-3 shadow-sm fw-bold border-2"
-                          style={{ 
-                            backgroundColor: "#ffffff",
-                            color: "#0d6efd", 
-                            borderColor: "#0d6efd", 
-                            transition: "all 0.25s ease"
-                          }}
-                          onMouseEnter={(e) => {
-                            e.currentTarget.style.backgroundColor = "#e0f2fe"; 
-                            e.currentTarget.style.borderColor = "#f97316"; 
-                            e.currentTarget.style.transform = "translateY(-2px)";
-                          }}
-                          onMouseLeave={(e) => {
-                            e.currentTarget.style.backgroundColor = "#ffffff";
-                            e.currentTarget.style.borderColor = "#0d6efd";
-                            e.currentTarget.style.transform = "translateY(0px)";
-                          }}
-                          onClick={() => navigate(`/authors/edit/${author.id}`)}
-                        >
-                          <i className="bi bi-pencil-square me-1"></i> Edit
-                        </button>
-
-                        <button
-                          className="btn btn-sm btn-outline-danger rounded-pill px-3 shadow-sm border-2"
-                          onClick={() => handleDelete(author.id)}
-                        >
-                          <i className="bi bi-trash3"></i>
-                        </button>
+                      <td className="py-4 text-end px-4">
+                        <div className="btn-group shadow-sm rounded-pill overflow-hidden border bg-white">
+                          <button
+                            className="btn btn-white btn-sm px-3 py-2 border-end transition-all"
+                            style={{ transition: "0.3s" }}
+                            onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#0d6efd"; e.currentTarget.querySelector('i')?.classList.replace('text-primary', 'text-white'); }}
+                            onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "#fff"; e.currentTarget.querySelector('i')?.classList.replace('text-white', 'text-primary'); }}
+                            onClick={() => navigate(`/authors/edit/${author.id}`)}
+                          >
+                            <i className="bi bi-pencil-square text-primary"></i>
+                          </button>
+                          <button
+                            className="btn btn-white btn-sm px-3 py-2 transition-all"
+                            style={{ transition: "0.3s" }}
+                            onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#dc3545"; e.currentTarget.querySelector('i')?.classList.replace('text-danger', 'text-white'); }}
+                            onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "#fff"; e.currentTarget.querySelector('i')?.classList.replace('text-white', 'text-danger'); }}
+                            onClick={() => handleDelete(author.id)}
+                          >
+                            <i className="bi bi-trash text-danger"></i>
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   ))
@@ -198,7 +228,25 @@ export const Authors = () => {
             </table>
           </div>
         </div>
+
+        {/* Footer Stats */}
+        <div className="mt-4 text-center">
+            <span className="badge bg-white text-muted shadow-sm border px-3 py-2 rounded-pill fw-bold">
+              Total Registered Authors: {authors.length}
+            </span>
+        </div>
       </div>
+
+      <style>{`
+        .tracking-tight { letter-spacing: -0.02em; }
+        .btn-white { background: #fff; border: none; }
+        tr:hover { background-color: rgba(248, 250, 252, 0.8) !important; }
+        .transition-all { transition: all 0.3s ease; }
+        .search-container:focus-within {
+          box-shadow: 0 10px 25px rgba(235, 147, 59, 0.1) !important;
+          background: rgba(255, 255, 255, 0.9) !important;
+        }
+      `}</style>
     </div>
   );
 };

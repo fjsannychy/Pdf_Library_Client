@@ -2,105 +2,90 @@ import { NavLink } from "react-router-dom";
 
 export const Home = () => {
   return (
-    <div className="bg-light">
+    <div className="bg-light min-vh-100">
       
-      {/* Premium Hero Section */}
+      {/* High-Clarity Hero Section */}
       <div 
-        className="text-white py-5 shadow-lg" 
-        style={{ background: "#11364a", borderBottom: "4px solid #f7941e" }}
+        className="position-relative d-flex align-items-center justify-content-center py-5" 
+        style={{ 
+          // Using a high-res "Flat Lay" image to match your screenshot's vibe
+          backgroundImage: `url('https://images.unsplash.com/photo-1516979187457-637abb4f9353?q=80&w=2070&auto=format&fit=crop')`, 
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          minHeight: "90vh",
+          backgroundAttachment: "fixed" // This creates a professional parallax feel
+        }}
       >
-        <div className="container py-5">
-          <div className="row align-items-center g-5">
-            <div className="col-lg-7 text-center text-lg-start">
-              <h1 className="display-2 fw-bolder mb-3 lh-1">
-                Your <span style={{ color: "#f7941e" }}>Digital</span> <span className="text-light">Library</span>
-              </h1>
-              <p className="lead fs-5 mb-5 opacity-75">
-                Centralize, organize, and access your entire PDF collection in one powerful,
-                secure platform. Optimized for researchers, students, and avid readers.
-              </p>
-              <div className="d-flex gap-3 justify-content-center justify-content-lg-start">
-                <NavLink 
-                  to="/books" 
-                  className="btn btn-lg px-5 py-3 rounded-pill fw-bold"
-                  style={{ background: "#f7941e", color: "white", border: "2px solid #f7941e" }}
-                >
-                  <i className="bi bi-book me-2"></i>Browse Collection
-                </NavLink>
-                <NavLink 
-                  to="/register" 
-                  className="btn btn-lg btn-outline-light px-5 py-3 rounded-pill fw-medium"
-                >
-                  Create Account
-                </NavLink>
+        {/* LIGHT Overlay: This keeps the background "Clear" but protects text readability */}
+        <div 
+          className="position-absolute top-0 start-0 w-100 h-100" 
+          style={{ 
+            background: "linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.1) 100%)",
+            zIndex: 1 
+          }}
+        ></div>
+
+        <div className="container position-relative" style={{ zIndex: 2 }}>
+          <div className="row justify-content-center">
+            <div className="col-lg-8">
+              {/* White Card with soft shadow - exactly like the BookBub login box */}
+              <div 
+                className="p-5 rounded-4 shadow-lg text-center border-0" 
+                style={{ 
+                  background: "rgba(255, 255, 255, 0.98)", 
+                  boxShadow: "0 20px 40px rgba(0,0,0,0.1)"
+                }}
+              >
+                <h1 className="display-4 fw-bolder mb-3" style={{ color: "#11364a" }}>
+                  Your <span style={{ color: "#f7941e" }}>Digital</span> Library
+                </h1>
+                <p className="text-muted fs-5 mb-5 mx-auto" style={{ maxWidth: "600px" }}>
+                  The most aesthetic way to organize your PDF collection. 
+                  Access your books from anywhere, on any device.
+                </p>
+                
+                <div className="d-grid gap-3 d-sm-flex justify-content-sm-center">
+                  <NavLink 
+                    to="/books" 
+                    className="btn btn-lg px-5 py-3 rounded-2 fw-bold text-white"
+                    style={{ background: "#f7941e", border: "none" }}
+                  >
+                    Browse Collection
+                  </NavLink>
+                  <NavLink 
+                    to="/register" 
+                    className="btn btn-lg btn-outline-secondary px-5 py-3 rounded-2 fw-medium"
+                  >
+                    Create Account
+                  </NavLink>
+                </div>
+
+                <div className="mt-5 pt-4 border-top">
+                  <span className="text-muted small">New to the platform? </span>
+                  <NavLink to="/register" className="small fw-bold text-decoration-none" style={{color: "#f7941e"}}>
+                    Join for free today.
+                  </NavLink>
+                </div>
               </div>
             </div>
-            <div className="col-lg-5 d-none d-lg-block text-center position-relative">
-                {/* Visual Anchor */}
-                <i 
-                  className="bi bi-journal-richtext" 
-                  style={{ fontSize: "14rem", color: "#f7941e", opacity: 0.85 }}
-                ></i>
-                <i 
-                  className="bi bi-file-earmark-pdf position-absolute start-0 text-white opacity-25" 
-                  style={{ fontSize: "6rem", transform: "rotate(-15deg)" }}
-                ></i>
-                <i 
-                  className="bi bi-eye position-absolute end-0 bottom-0 text-white opacity-25" 
-                  style={{ fontSize: "5rem" }}
-                ></i>
-            </div>
           </div>
         </div>
       </div>
 
-      {/* Sleek Features Section */}
-      <div className="container py-5 mt-5">
-        <h3 className="text-center text-secondary fw-bold mb-5">Built for a Modern PDF Library</h3>
-        <div className="row g-5 text-center">
-          <div className="col-md-4">
-            <div className="p-5 bg-white shadow-lg rounded-4 h-100 border border-light">
-              <div className="display-4 text-secondary mb-3"><i className="bi bi-cloud-arrow-up-fill"></i></div>
-              <h4 className="fw-bold mb-3 text-dark">Easy Uploads</h4>
-              <p className="text-muted fs-6">
-                Drag-and-drop secure file transfers to centralize your entire library in minutes.
-              </p>
+      {/* Simplified Features for better flow */}
+      <div className="container py-5">
+        <div className="row g-4 py-5">
+          {[
+            { icon: "bi-lightning-charge", title: "Fast Sync", desc: "Your library stays updated across all devices instantly." },
+            { icon: "bi-search", title: "Smart Filter", desc: "Search through metadata and tags in milliseconds." },
+            { icon: "bi-shield-check", title: "Secure Cloud", desc: "Your documents are encrypted and privately stored." }
+          ].map((feature, idx) => (
+            <div key={idx} className="col-md-4 text-center">
+              <div className="fs-1 mb-3" style={{ color: "#11364a" }}><i className={feature.icon}></i></div>
+              <h5 className="fw-bold">{feature.title}</h5>
+              <p className="text-muted small px-lg-5">{feature.desc}</p>
             </div>
-          </div>
-          <div className="col-md-4">
-            <div className="p-5 bg-white shadow-lg rounded-4 h-100 border border-light">
-              <div className="display-4 text-secondary mb-3"><i className="bi bi-search-heart"></i></div>
-              <h4 className="fw-bold mb-3 text-dark">Advanced Search</h4>
-              <p className="text-muted fs-6">
-                Instantly locate any book by title, author, or publisher across thousands of entries.
-              </p>
-            </div>
-          </div>
-          <div className="col-md-4">
-            <div className="p-5 bg-white shadow-lg rounded-4 h-100 border border-light">
-              <div className="display-4 text-secondary mb-3"><i className="bi bi-shield-lock-fill"></i></div>
-              <h4 className="fw-bold mb-3 text-dark">Role Security</h4>
-              <p className="text-muted fs-6">
-                Granular permissions ensure your library data remains protected, accurate, and accessible.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Refined Footer */}
-      <div className="container py-5 mt-5 border-top">
-        <div className="row align-items-center text-muted">
-          <div className="col-md-6 text-center text-md-start">
-            <h5 className="fw-bold" style={{ color: "#11364a" }}>PDF Library</h5>
-            <small>© 2026 PDF Library Project. Built with professional passion in Bangladesh.</small>
-          </div>
-          <div className="col-md-6 text-center text-md-end mt-3 mt-md-0">
-             <i className="bi bi-dot mx-2"></i>
-             <NavLink to="/" className="text-muted text-decoration-none small">Home</NavLink>
-             <i className="bi bi-dot mx-2"></i>
-             <NavLink to="/books" className="text-muted text-decoration-none small">Books</NavLink>
-          </div>
+          ))}
         </div>
       </div>
     </div>

@@ -41,125 +41,137 @@ export const Users = () => {
 
   const renderStatus = (status: number) => {
     switch (status) {
-      case 1: return <span className="badge rounded-pill bg-success-subtle text-success px-3">Active</span>;
-      case 0: return <span className="badge rounded-pill bg-secondary-subtle text-secondary px-3 border">Inactive</span>;
-      case 2: return <span className="badge rounded-pill bg-danger-subtle text-danger px-3">Suspended</span>;
+      case 1: return <span className="badge rounded-pill bg-success-subtle text-success px-3 border border-success-subtle">Active Now</span>;
+      case 0: return <span className="badge rounded-pill bg-light text-secondary px-3 border">Inactive</span>;
+      case 2: return <span className="badge rounded-pill bg-danger-subtle text-danger px-3 border border-danger-subtle">Suspended</span>;
       default: return null;
     }
   };
 
+  const getInitials = (name: string) => {
+    if (!name) return "??";
+    return name
+      .split(" ")
+      .map((word) => word[0])
+      .join("")
+      .toUpperCase()
+      .substring(0, 2);
+  };
+
+  const pageWrapper: React.CSSProperties = {
+    minHeight: "100vh",
+    backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.92)), 
+                      url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2071&auto=format&fit=crop')`,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    backgroundAttachment: "fixed",
+    paddingTop: "4rem",
+    paddingBottom: "5rem"
+  };
+
+  const glassHeader: React.CSSProperties = {
+    background: "rgba(255, 255, 255, 0.7)",
+    backdropFilter: "blur(15px)",
+    border: "4px solid rgba(8, 57, 86, 0.5)",
+    borderRadius: "20px",
+    padding: "1.5rem",
+    boxShadow: "0 10px 30px rgba(0, 0, 0, 0.05)"
+  };
+
   return (
-    <div className="min-vh-100 py-5" style={{ backgroundColor: "#cbd5e1" }}>
+    <div style={pageWrapper}>
       <div className="container">
         
         {/* Header Section */}
-        <div className="d-flex justify-content-between align-items-end mb-5">
-          <div className="d-flex align-items-center">
-            {/* 🔹 Back Button to Home */}
+        <div className="row align-items-center mb-5">
+          <div className="col-md-8 d-flex align-items-center">
             <button 
-              className="btn btn-white rounded-circle shadow-sm me-3 border-2" 
-              style={{ 
-                width: "45px", 
-                height: "45px", 
-                borderColor: "#11364a", 
-                color: "#11364a",
-                transition: "0.3s" 
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = "#11364a";
-                e.currentTarget.style.color = "#ffffff";
-                e.currentTarget.style.borderColor = "#f97316"; // Mixed with orange on hover
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = "#ffffff";
-                e.currentTarget.style.color = "#11364a";
-                e.currentTarget.style.borderColor = "#11364a";
-              }}
-              onClick={() => navigate("/")} // Navigates to Home
-              title="Back to Home"
+              className="btn btn-white rounded-circle shadow-sm me-4 border-2 d-flex align-items-center justify-content-center" 
+              style={{ width: "45px", height: "45px", borderColor: "#11364a", color: "#11364a", transition: "0.3s" }}
+              onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#11364a"; e.currentTarget.style.color = "#fff"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "#fff"; e.currentTarget.style.color = "#11364a"; }}
+              onClick={() => navigate("/")}
             >
               <i className="bi bi-arrow-left fs-5"></i>
             </button>
-
             <div>
-              <h1 className="fw-bold text-dark mb-1" style={{ letterSpacing: "-1px" }}>User Management</h1>
-              <p className="text-muted mb-0 fs-5">Review and manage library access privileges</p>
+              <h1 className="display-6 fw-bolder text-dark mb-0 tracking-tight">
+                User <span style={{ color: "#f7941e" }}>Directory</span>
+              </h1>
+              <p className="text-muted fw-medium mb-0">Managing your active reading community</p>
             </div>
           </div>
-          
-          <button 
-            className="btn btn-primary rounded-pill px-4 shadow-sm fw-bold border-0 py-2" 
-            style={{ backgroundColor: "#11364a" }} 
-            onClick={() => navigate('/Register')}
-          >
-            <i className="bi bi-person-plus-fill me-2"></i>New User
-          </button>
+          <div className="col-md-4 text-md-end mt-3 mt-md-0">
+            <button 
+              className="btn btn-primary rounded-pill px-4 py-2 fw-bold shadow-sm border-0" 
+              style={{ backgroundColor: "#11364a" }} 
+              onClick={() => navigate('/Register')}
+            >
+              <i className="bi bi-person-plus-fill me-2"></i>New Account
+            </button>
+          </div>
         </div>
 
-        {/* Search Bar with Mixed Border */}
-        <div 
-          className="card shadow-lg rounded-4 mb-4 overflow-hidden"
-          style={{ 
-            border: "3px solid",
-            borderImageSource: "linear-gradient(90deg, #270ab9, #f97316)", 
-            borderImageSlice: 1 
-          }}
-        >
-          <div className="card-body p-0">
-            <div className="row g-0 align-items-center">
-              <div className="col-lg-8 bg-white d-flex align-items-center">
-                <div className="input-group input-group-lg px-3">
-                  <span className="input-group-text bg-transparent border-0 text-muted ps-2">
-                    <i className="bi bi-search"></i>
-                  </span>
-                  <input
-                    type="text"
-                    className="form-control border-0 shadow-none ps-2 py-4"
-                    placeholder="Search by username or name..."
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                  />
-                </div>
-              </div>
-              <div className="col-lg-4 bg-light d-none d-lg-flex justify-content-center align-items-center border-start border-light">
-                <span className="text-muted fw-bold small text-uppercase py-4">
-                  Total Users: {users.length}
-                </span>
-              </div>
+        {/* Glassmorphism Search Bar */}
+        <div style={glassHeader} className="mb-4">
+          <div className="row g-0 align-items-center">
+            <div className="col-12 d-flex align-items-center px-2">
+              <i className="bi bi-search text-primary fs-5 me-3 opacity-50"></i>
+              <input
+                type="text"
+                className="form-control border-0 shadow-none bg-transparent py-2"
+                placeholder="Search name, username or roles..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                style={{ fontSize: "1.1rem" }}
+              />
             </div>
           </div>
         </div>
 
-        {/* Table Card with Mixed Border */}
+        {/* 🔹 User Table Grid with Orange Border */}
         <div 
           className="card shadow-lg rounded-4 overflow-hidden" 
           style={{ 
-            border: "4px solid",
-            borderImageSource: "linear-gradient(90deg, #ffb700, #5a09aa)", 
-            borderImageSlice: 1 
+            background: "rgba(255, 255, 255, 0.95)",
+            border: "4px solid #eb933b", // Orange Frame matching AuthorForm
+            transition: "transform 0.3s ease"
           }}
+          onMouseEnter={(e) => e.currentTarget.style.transform = "scale(1.005)"}
+          onMouseLeave={(e) => e.currentTarget.style.transform = "scale(1)"}
         >
           <div className="table-responsive">
             <table className="table table-hover align-middle mb-0">
-              <thead style={{ backgroundColor: "#f8fafc" }}>
+              <thead className="bg-light bg-opacity-50">
                 <tr>
-                  <th className="px-4 py-3 border-0 text-muted small fw-bold text-uppercase">Identity / Username</th>
-                  <th className="py-3 border-0 text-muted small fw-bold text-uppercase">Access Role</th>
+                  <th className="px-4 py-3 border-0 text-muted small fw-bold text-uppercase">Member Identity</th>
+                  <th className="py-3 border-0 text-muted small fw-bold text-uppercase text-center">Access Role</th>
                   <th className="py-3 border-0 text-muted small fw-bold text-uppercase text-center">Status</th>
-                  <th className="px-4 py-3 border-0 text-muted small fw-bold text-uppercase text-end">Actions</th>
+                  <th className="px-4 py-3 border-0 text-muted small fw-bold text-uppercase text-end">Management</th>
                 </tr>
               </thead>
-              <tbody className="bg-white">
+              <tbody className="bg-transparent">
                 {loading ? (
-                  <tr><td colSpan={4} className="text-center py-5"><div className="spinner-border text-primary"></div></td></tr>
+                  <tr>
+                    <td colSpan={4} className="text-center py-5">
+                      <div className="spinner-border" style={{ color: "#ff0f83" }}></div>
+                    </td>
+                  </tr>
                 ) : (
                   users.map((user) => (
-                    <tr key={user.id}>
-                      <td className="px-4 py-3">
+                    <tr key={user.id} className="border-bottom border-light">
+                      <td className="px-4 py-4">
                         <div className="d-flex align-items-center">
-                          <div className="bg-primary-subtle text-primary rounded-circle d-flex align-items-center justify-content-center me-3" 
-                               style={{ width: '40px', height: '40px' }}>
-                            <i className="bi bi-person fs-5"></i>
+                          <div
+                            className="rounded-circle d-flex align-items-center justify-content-center me-3 shadow-sm fw-bold border bg-white text-primary"
+                            style={{ 
+                              width: "45px", 
+                              height: "45px",
+                              fontSize: "0.9rem",
+                              letterSpacing: "0.5px"
+                            }}
+                          >
+                            {getInitials(user.fullname)}
                           </div>
                           <div>
                             <div className="fw-bold text-dark">{user.fullname}</div>
@@ -167,39 +179,35 @@ export const Users = () => {
                           </div>
                         </div>
                       </td>
-                      <td className="py-3">
-                        <div className="d-flex align-items-center text-dark small">
-                          <i className={`bi bi-shield-lock me-2 ${user.role === 'Admin' ? 'text-danger' : 'text-primary'}`}></i>
+                      <td className="py-4 text-center">
+                        <span className={`badge rounded-pill py-2 px-3 fw-medium ${user.role === 'Admin' ? 'bg-danger-subtle text-danger' : 'bg-primary-subtle text-primary'}`}>
                           {user.role}
-                        </div>
+                        </span>
                       </td>
-                      <td className="py-3 text-center">
+                      <td className="py-4 text-center">
                         {renderStatus(user.status)}
                       </td>
-                      <td className="px-4 py-3 text-end">
-                        <button
-                          className="btn btn-sm rounded-pill me-2 px-3 shadow-sm fw-bold"
-                          style={{ 
-                            backgroundColor: "#ffffff",
-                            color: "#0d6efd",
-                            border: "2px solid #0d6efd",
-                            transition: "all 0.2s ease"
-                          }}
-                          onMouseEnter={(e) => {
-                            e.currentTarget.style.backgroundColor = "#e0f2fe"; 
-                            e.currentTarget.style.boxShadow = "0 0 10px rgba(13, 110, 253, 0.3)";
-                          }}
-                          onMouseLeave={(e) => {
-                            e.currentTarget.style.backgroundColor = "#ffffff";
-                            e.currentTarget.style.boxShadow = "none";
-                          }}
-                          onClick={() => navigate(`/users/edit/${user.id}`)}
-                        >
-                          <i className="bi bi-pencil me-1"></i> Edit
-                        </button>
-                        <button className="btn btn-sm btn-outline-danger rounded-pill px-3 shadow-sm" onClick={() => handleDelete(user.id)}>
-                          <i className="bi bi-trash"></i>
-                        </button>
+                      <td className="px-4 py-4 text-end">
+                        <div className="btn-group shadow-sm rounded-pill overflow-hidden border bg-white">
+                          <button
+                            className="btn btn-white btn-sm px-3 py-2 border-end transition-all"
+                            style={{ transition: "0.3s" }}
+                            onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#0d6efd"; e.currentTarget.querySelector('i')?.classList.replace('text-primary', 'text-white'); }}
+                            onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "#fff"; e.currentTarget.querySelector('i')?.classList.replace('text-white', 'text-primary'); }}
+                            onClick={() => navigate(`/users/edit/${user.id}`)}
+                          >
+                            <i className="bi bi-pencil-square text-primary"></i>
+                          </button>
+                          <button 
+                            className="btn btn-white btn-sm px-3 py-2 transition-all" 
+                            style={{ transition: "0.3s" }}
+                            onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#dc3545"; e.currentTarget.querySelector('i')?.classList.replace('text-danger', 'text-white'); }}
+                            onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "#fff"; e.currentTarget.querySelector('i')?.classList.replace('text-white', 'text-danger'); }}
+                            onClick={() => handleDelete(user.id)}
+                          >
+                            <i className="bi bi-trash text-danger"></i>
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   ))
@@ -208,7 +216,23 @@ export const Users = () => {
             </table>
           </div>
         </div>
+
+        {/* Footer Stats */}
+        <div className="mt-4 text-center">
+            <span className="badge bg-white text-muted shadow-sm border px-3 py-2 rounded-pill fw-bold">
+              Total Community Members: {users.length}
+            </span>
+        </div>
+
       </div>
+
+      <style>{`
+        .tracking-tight { letter-spacing: -0.02em; }
+        .btn-white { background: #fff; border: none; }
+        .btn-white:hover { background: #f8fafc; }
+        tr:hover { background-color: rgba(248, 250, 252, 0.8) !important; }
+        .transition-all { transition: all 0.3s ease; }
+      `}</style>
     </div>
   );
 };

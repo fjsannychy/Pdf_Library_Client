@@ -65,22 +65,26 @@ export const CategoryForm = () => {
     <div
       className="min-vh-100 py-5 d-flex align-items-center justify-content-center"
       style={{
-        background: "linear-gradient(to bottom, #11364a 50%, #cbd5e1 50%)",
+        // 🔹 Category-themed background: Organized library shelves
+        backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.75)), 
+                          url('https://images.unsplash.com/photo-1507842217343-583bb7270b66?q=80&w=2100')`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundAttachment: "fixed",
       }}
     >
       <div className="container">
         <div className="row justify-content-center">
           <div className="col-md-6 col-lg-5">
             
-            {/* 🔹 Form Card with Orange Border & Hover Effect */}
             <div
               className="card shadow-lg rounded-4 overflow-hidden"
-              style={{ 
-                border: "4px solid #f97316",
-                transition: "transform 0.3s ease" 
+              style={{
+                border: "4px solid #f97316", 
+                transition: "transform 0.3s ease",
               }}
-              onMouseEnter={(e) => e.currentTarget.style.transform = "scale(1.01)"}
-              onMouseLeave={(e) => e.currentTarget.style.transform = "scale(1)"}
+              onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.01)")}
+              onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
             >
               <div className="card-body p-4 p-md-5 bg-white">
                 
@@ -90,14 +94,14 @@ export const CategoryForm = () => {
                     style={{ backgroundColor: "#fff7ed" }}
                   >
                     <i
-                      className="bi bi-tags fs-2"
+                      className="bi bi-collection fs-2" // Changed icon to 'collection' for categories
                       style={{ color: "#f97316" }}
                     ></i>
                   </div>
                   <h2 className="fw-bold text-dark">
                     {id ? "Edit Category" : "Add New Category"}
                   </h2>
-                  <p className="text-muted small">Update the library classification records</p>
+                  <p className="text-muted small">Organize books by genre or classification</p>
                 </div>
 
                 <form onSubmit={saveCategory}>
@@ -109,12 +113,12 @@ export const CategoryForm = () => {
                     </label>
                     <div className="input-group border rounded-3 overflow-hidden shadow-sm">
                       <span className="input-group-text bg-light border-0">
-                        <i className="bi bi-tag text-muted"></i>
+                        <i className="bi bi-bookmark-star text-muted"></i>
                       </span>
                       <input
                         name="name"
                         className="form-control border-0 py-2 shadow-none"
-                        placeholder="e.g. Science Fiction, Biography"
+                        placeholder="e.g. History, Technology, Fiction"
                         value={category.name}
                         onChange={handleInput}
                         required
@@ -129,7 +133,7 @@ export const CategoryForm = () => {
                     </label>
                     <div className="input-group border rounded-3 overflow-hidden shadow-sm">
                       <span className="input-group-text bg-light border-0">
-                        <i className="bi bi-activity text-muted"></i>
+                        <i className="bi bi-eye text-muted"></i>
                       </span>
                       <select
                         name="status"
@@ -137,8 +141,8 @@ export const CategoryForm = () => {
                         value={category.status}
                         onChange={handleInput}
                       >
-                        <option value={1}>Active</option>
-                        <option value={0}>Inactive</option>
+                        <option value={1}>Active (Visible)</option>
+                        <option value={0}>Inactive (Hidden)</option>
                       </select>
                     </div>
                   </div>
@@ -163,9 +167,9 @@ export const CategoryForm = () => {
                       {loading ? (
                         <span className="spinner-border spinner-border-sm me-2"></span>
                       ) : (
-                        <i className="bi bi-check2-circle me-2"></i>
+                        <i className="bi bi-save me-2"></i>
                       )}
-                      {id ? "Update Record" : "Save Entry"}
+                      {id ? "Update Category" : "Save Category"}
                     </button>
                   </div>
                 </form>

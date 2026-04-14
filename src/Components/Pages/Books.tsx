@@ -69,55 +69,56 @@ export const Books = () => {
 
   const clickEdit = (id: number) => navigate(`/book-form/${id}`);
 
-  // --- MODERN DESIGN THEME ---
+  // --- ENHANCED THEME DESIGN ---
   const pageWrapper: React.CSSProperties = {
     minHeight: "100vh",
-    // Modern Mesh Gradient Background
-    backgroundColor: "#afb0ba",
-    backgroundImage: `
-      radial-gradient(at 0% 0%, rgba(13, 110, 253, 0.05) 0px, transparent 50%),
-      radial-gradient(at 100% 0%, rgba(102, 16, 242, 0.05) 0px, transparent 50%),
-      radial-gradient(at 100% 100%, rgba(13, 202, 240, 0.05) 0px, transparent 50%),
-      radial-gradient(at 0% 100%, rgba(102, 16, 242, 0.05) 0px, transparent 50%)
-    `,
+    // Light overlay (0.9) ensures background is clear but text is readable
+    backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), 
+                      url('https://images.unsplash.com/photo-1507842217343-583bb7270b66?q=80&w=2000&auto=format&fit=crop')`,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    backgroundAttachment: "fixed", // Parallax effect
     paddingBottom: "100px"
   };
 
   const glassHeader: React.CSSProperties = {
-    background: "rgba(255, 255, 255, 0.6)",
-    backdropFilter: "blur(12px)",
-    border: "1px solid rgba(255, 255, 255, 0.3)",
-    borderRadius: "24px",
+    background: "rgba(255, 255, 255, 0.8)",
+    backdropFilter: "blur(15px)",
+    border: "1px solid rgba(255, 255, 255, 0.5)",
+    borderRadius: "20px",
     padding: "1.5rem",
-    boxShadow: "0 10px 30px rgba(0, 0, 0, 0.03)"
+    boxShadow: "0 15px 35px rgba(0, 0, 0, 0.05)"
   };
 
   return (
     <div style={pageWrapper}>
       <div className="container py-5">
         
-        {/* Modern Animated Header */}
+        {/* Header Section */}
         <div className="row align-items-center mb-5">
           <div className="col">
-            <h1 className="display-6 fw-bold text-dark tracking-tight">
-              Digital <span className="text-primary text-gradient">Library</span>
+            <h1 className="display-5 fw-bolder text-dark tracking-tight">
+              Digital <span className="text-gradient">Library</span>
             </h1>
-            <p className="text-muted lead fs-6">Find your next favorite story in our curated collection.</p>
+            <p className="text-muted lead fs-6">
+              <i className="bi bi-collection me-2 text-primary"></i>
+              Browse and manage your personal collection of PDF volumes.
+            </p>
           </div>
           <div className="col-auto">
             {(state.role === "Admin" || state.role === "Librarian") && (
               <button
-                className="btn btn-primary px-4 py-2 rounded-pill shadow-lg border-0 d-flex align-items-center"
+                className="btn btn-primary px-4 py-2 rounded-pill shadow-lg border-0 d-flex align-items-center fw-bold"
                 onClick={() => navigate("/book-form")}
-                style={{ transition: 'all 0.3s ease' }}
+                style={{ transition: 'all 0.3s ease', backgroundColor: '#11364a' }}
               >
-                <i className="bi bi-plus-lg me-2"></i> New Release
+                <i className="bi bi-plus-lg me-2"></i> Add New Book
               </button>
             )}
           </div>
         </div>
 
-        {/* Glassmorphism Control Bar */}
+        {/* Search & Filter Bar */}
         <div style={glassHeader} className="mb-5">
           <div className="row g-3 align-items-center">
             <div className="col-md-3">
@@ -131,25 +132,25 @@ export const Books = () => {
                     setBooks([]);
                     setFilter({ ...filter, pageNumber: 1, filterType: parseInt(e.target.value) });
                   }}
-                  style={{ borderRadius: "14px" }}
+                  style={{ borderRadius: "12px" }}
                 >
                   <option value={0}>✨ Recommended</option>
                   <option value={1}>❤️ Favorites</option>
-                  <option value={2}>📖 Owned</option>
+                  <option value={2}>📖 My Library</option>
                 </select>
-                <label htmlFor="filterSelect">Browse by</label>
+                <label htmlFor="filterSelect">Filter By</label>
               </div>
             </div>
 
             <div className="col-md-9">
-              <div className="input-group input-group-lg shadow-sm" style={{ borderRadius: "14px", overflow: "hidden" }}>
+              <div className="input-group input-group-lg shadow-sm" style={{ borderRadius: "12px", overflow: "hidden" }}>
                 <span className="input-group-text border-0 bg-white pe-0">
                   <i className="bi bi-search text-primary opacity-50"></i>
                 </span>
                 <input
                   type="text"
                   className="form-control border-0 py-3 ps-3"
-                  placeholder="Search titles, authors, genres..."
+                  placeholder="Search titles, authors, or topics..."
                   value={filter.search}
                   onChange={(e) => {
                     setHasMore(true);
@@ -162,7 +163,7 @@ export const Books = () => {
           </div>
         </div>
 
-        {/* Uniform Sized Grid */}
+        {/* Book Grid */}
         <div className="row g-4 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4">
           {books.length > 0 ? (
             books.map(book => (
@@ -180,40 +181,46 @@ export const Books = () => {
             !loading && (
               <div className="col-12 text-center py-5">
                 <div className="bg-white p-5 rounded-5 shadow-sm border border-light">
-                   <h4 className="fw-bold">No matches found</h4>
-                   <p className="text-muted">Try adjusting your filters or search keywords.</p>
-                   <button className="btn btn-outline-primary rounded-pill mt-2" onClick={() => setFilter({ ...filter, search: "", filterType: 0 })}>Reset Search</button>
+                   <h4 className="fw-bold">No results found</h4>
+                   <p className="text-muted">We couldn't find any books matching your current search.</p>
+                   <button 
+                    className="btn btn-primary rounded-pill mt-2 px-4" 
+                    onClick={() => setFilter({ ...filter, search: "", filterType: 0 })}
+                    style={{ backgroundColor: '#f7941e', border: 'none' }}
+                   >
+                     Reset All Filters
+                   </button>
                 </div>
               </div>
             )
           )}
         </div>
 
-        {/* Loader Section */}
+        {/* Loading Spinner */}
         {loading && (
           <div className="d-flex flex-column align-items-center my-5 py-5">
-            <div className="spinner-grow text-primary" role="status" style={{ width: '3rem', height: '3rem' }}></div>
-            <span className="mt-3 text-muted fw-bold">Curating results...</span>
+            <div className="spinner-border" role="status" style={{ color: '#f7941e', width: '3rem', height: '3rem' }}></div>
+            <span className="mt-3 text-muted fw-bold">Loading your library...</span>
           </div>
         )}
       </div>
 
       <style>{`
         .text-gradient {
-          background: linear-gradient(90deg, #0d6efd, #6610f2);
+          background: linear-gradient(90deg, #11364a, #f7941e);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
         }
         .transition-3d {
-          transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         .book-card-hover:hover {
-          transform: translateY(-10px) scale(1.02);
+          transform: translateY(-8px);
         }
         .form-select:focus, .form-control:focus {
-          box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.1) !important;
+          box-shadow: 0 0 0 4px rgba(247, 148, 30, 0.15) !important;
         }
-        .tracking-tight { letter-spacing: -0.05em; }
+        .tracking-tight { letter-spacing: -0.02em; }
       `}</style>
     </div>
   );

@@ -18,21 +18,23 @@ export const PaymentPage = () => {
     }, [id]);
 
     const handleFakePayment = () => {
-        setProcessing(true);
-        
-        // Simulating a delay for the payment gateway
-        setTimeout(() => {
-            // ActionType 2 represents 'Paid' or 'Purchased' in your logic
-            BookService.AddUserAction({ bookId: Number(id), actionType: 2 })
-                .then(() => {
-                    alert("Payment Successful! This book is now in your library.");
-                    navigate("/Books"); // Redirect to book list or owned books
-                })
-                .catch(() => alert("Payment failed. Please try again."))
-                .finally(() => setProcessing(false));
-        }, 2000);
-    };
-
+    setProcessing(true);
+    
+    // Simulating a delay for the payment gateway
+    setTimeout(() => {
+        // Calling the new specific payment process
+        BookService.ProcessPayment(Number(id))
+            .then(() => {
+                alert("Payment Successful! This book is now in your library.");
+                navigate("/Books"); 
+            })
+            .catch((err) => {
+                console.error("Payment Error:", err);
+                alert("Payment failed. Please try again.");
+            })
+            .finally(() => setProcessing(false));
+    }, 2000);
+};
     if (!book) return <div className="text-center mt-5">Loading...</div>;
 
     return (

@@ -53,14 +53,23 @@ export const AuthorForm = () => {
   };
 
   return (
-    <div className="min-vh-100 py-5 d-flex align-items-center justify-content-center" 
-         style={{ background: "linear-gradient(to bottom, #11364a 50%, #cbd5e1 50%)" }}>
+    <div 
+      className="min-vh-100 py-5 d-flex align-items-center justify-content-center" 
+      style={{ 
+        // 🔹 Light-themed background related to registry/form-filling
+        backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)), 
+                          url('https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=2070')`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundAttachment: "fixed"
+      }}
+    >
       
       <div className="container">
         <div className="row justify-content-center">
           <div className="col-md-6 col-lg-5">
             
-            {/* 🔹 Form Card with Orange Border */}
+            {/* 🔹 Form Card with Orange Border (Kept identical to your request) */}
             <div 
               className="card shadow-lg rounded-4 overflow-hidden" 
               style={{ 

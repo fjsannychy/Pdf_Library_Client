@@ -39,4 +39,10 @@ export const BookService = {
   AddUserAction: async (data: UserActionModel): Promise<any> => {
     return axiosInstance.post('Books/user-action', data);
   },
+  ProcessPayment: async (bookId: number): Promise<any> => {
+    // Note: The backend expects [FromBody] int bookId
+    return axiosInstance.post('Books/process-payment', bookId);
+  },
+
+
 };

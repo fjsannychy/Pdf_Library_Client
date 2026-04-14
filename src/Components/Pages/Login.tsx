@@ -66,7 +66,11 @@ export const Login: React.FC = () => {
   return (
     <div className="min-vh-100 d-flex align-items-center justify-content-center p-3" 
          style={{ 
-           background: "linear-gradient(135deg, #11364a 50%, #cbd5e1 50%)",
+           // 🔹 Enhanced: Professional dark library aesthetic
+           backgroundImage: `linear-gradient(rgba(17, 54, 74, 0.8), rgba(15, 23, 42, 0.9)), 
+                             url('https://images.unsplash.com/photo-1507842217343-583bb7270b66?q=80&w=2000')`,
+           backgroundSize: "cover",
+           backgroundPosition: "center",
            fontFamily: "'Plus Jakarta Sans', sans-serif" 
          }}>
       
@@ -76,7 +80,7 @@ export const Login: React.FC = () => {
             
             {/* 🔹 Portal Card */}
             <div className="card border-0 shadow-lg rounded-4 overflow-hidden" 
-                 style={{ backdropFilter: "blur(10px)", backgroundColor: "rgba(255, 255, 255, 0.95)" }}>
+                 style={{ backdropFilter: "blur(10px)", backgroundColor: "rgba(255, 255, 255, 0.96)" }}>
               
               {/* Header Accent Strip */}
               <div style={{ height: "6px", background: "linear-gradient(to right, #f97316, #11364a)" }}></div>
